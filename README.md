@@ -16,9 +16,6 @@ var restartOMeter = require('restart-o-meter')({
   onRestart : function(){
     console.log("detected a restart!");
   }
-  onStart : function(){
-    console.log("detected a start!");
-  },
   verbose : true
 });
 
