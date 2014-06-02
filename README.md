@@ -15,7 +15,7 @@ var restartOMeter = require('restart-o-meter')({
   filePath : '/tmp/STARTED',
   onRestart : function(){
     console.log("detected a restart!");
-  }
+  },
   verbose : true
 });
 
