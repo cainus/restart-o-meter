@@ -1,6 +1,6 @@
 {
   "name": "restart-o-meter",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Detect process \"restarts\" (as opposed to just \"starts\") in node.js processes.",
   "main": "index.js",
   "scripts": {

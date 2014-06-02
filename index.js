@@ -1,20 +1,23 @@
 var fs = require('fs');
 
-var hasFile = function() {
+var hasFile = function(filePath) {
   return fs.existsSync(filePath);
 };
 
-var deleteFile = function(verbose) {
+var deleteFile = function(filePath, verbose) {
   try {
     return fs.unlinkSync(filePath);
   } catch (ex) {
+    if (/^ENOENT/.test(ex.message)){
+      return;
+    }
     if (verbose){
       console.error('error deleting marker file.', ex, ex.stack);
     }
   }
 };
 
-var touchFile = function() {
+var touchFile = function(filePath, verbose) {
   try {
   return fs.openSync(filePath, 'w');
   } catch (ex){
@@ -41,18 +44,19 @@ var restartOmeter = function(options){
 
 restartOmeter.prototype.masterStart = function(){
   var verbose = this.verbose;
+  var filePath = this.filePath;
   if (verbose){
     console.log("master start");
   }
-  deleteFile(verbose);
+  deleteFile(filePath, verbose);
   return setTimeout(function() {
-    return touchFile(verbose);
+    return touchFile(filePath, verbose);
   }, 1000 * this.secondsToBoot);
 };
 
 restartOmeter.prototype.childStart = function(){
   var verbose = this.verbose;
-  if (hasFile()) {
+  if (hasFile(this.filePath)) {
     if (verbose) console.log("child restart");
     this.onRestart();
   } else {
